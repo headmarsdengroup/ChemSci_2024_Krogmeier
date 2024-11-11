@@ -13,4 +13,11 @@ In it, there must be:
 
 data_gen.py is an example script that uses main.py to compute spin dephasing for a series of Vanadium and Copper containing molecular spin systems.
 
-# TODO citation when paper details are finalized.
+@article{Krogmeier:2024aa,
+    Author = {Krogmeier, Timothy and Schlimgen, Anthony W and Head-Marsden, Kade},
+    Title = {Low temperature decoherence dynamics in molecular spin systems using the Lindblad master equation},
+    Journal = {Chem. Sci.},
+    Year = {2024},
+    Pages = {-},
+    url = {http://dx.doi.org/10.1039/D4SC05627B},
+}
