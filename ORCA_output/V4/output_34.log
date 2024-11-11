@@ -1,0 +1,401 @@
+
+                                 *****************
+                                 * O   R   C   A *
+                                 *****************
+
+                                            #,                                       
+                                            ###                                      
+                                            ####                                     
+                                            #####                                    
+                                            ######                                   
+                                           ########,                                 
+                                     ,,################,,,,,                         
+                               ,,#################################,,                 
+                          ,,##########################################,,             
+                       ,#########################################, ''#####,          
+                    ,#############################################,,   '####,        
+                  ,##################################################,,,,####,       
+                ,###########''''           ''''###############################       
+              ,#####''   ,,,,##########,,,,          '''####'''          '####       
+            ,##' ,,,,###########################,,,                        '##       
+           ' ,,###''''                  '''############,,,                           
+         ,,##''                                '''############,,,,        ,,,,,,###''
+      ,#''                                            '''#######################'''  
+     '                                                          ''''####''''         
+             ,#######,   #######,   ,#######,      ##                                
+            ,#'     '#,  ##    ##  ,#'     '#,    #''#        ######   ,####,        
+            ##       ##  ##   ,#'  ##            #'  '#       #        #'  '#        
+            ##       ##  #######   ##           ,######,      #####,   #    #        
+            '#,     ,#'  ##    ##  '#,     ,#' ,#      #,         ##   #,  ,#        
+             '#######'   ##     ##  '#######'  #'      '#     #####' # '####'        
+
+
+
+                  #######################################################
+                  #                        -***-                        #
+                  #          Department of theory and spectroscopy      #
+                  #    Directorship and core code : Frank Neese         #
+                  #        Max Planck Institute fuer Kohlenforschung    #
+                  #                Kaiser Wilhelm Platz 1               #
+                  #                 D-45470 Muelheim/Ruhr               #
+                  #                      Germany                        #
+                  #                                                     #
+                  #                  All rights reserved                #
+                  #                        -***-                        #
+                  #######################################################
+
+
+                         Program Version 5.0.4 -  RELEASE  -
+
+
+ With contributions from (in alphabetic order):
+   Daniel Aravena         : Magnetic Suceptibility
+   Michael Atanasov       : Ab Initio Ligand Field Theory (pilot matlab implementation)
+   Alexander A. Auer      : GIAO ZORA, VPT2 properties, NMR spectrum
+   Ute Becker             : Parallelization
+   Giovanni Bistoni       : ED, misc. LED, open-shell LED, HFLD
+   Martin Brehm           : Molecular dynamics
+   Dmytro Bykov           : SCF Hessian
+   Vijay G. Chilkuri      : MRCI spin determinant printing, contributions to CSF-ICE
+   Dipayan Datta          : RHF DLPNO-CCSD density
+   Achintya Kumar Dutta   : EOM-CC, STEOM-CC
+   Dmitry Ganyushin       : Spin-Orbit,Spin-Spin,Magnetic field MRCI
+   Miquel Garcia          : C-PCM and meta-GGA Hessian, CC/C-PCM, Gaussian charge scheme
+   Yang Guo               : DLPNO-NEVPT2, F12-NEVPT2, CIM, IAO-localization
+   Andreas Hansen         : Spin unrestricted coupled pair/coupled cluster methods
+   Benjamin Helmich-Paris : MC-RPA, TRAH-SCF, COSX integrals
+   Lee Huntington         : MR-EOM, pCC
+   Robert Izsak           : Overlap fitted RIJCOSX, COSX-SCS-MP3, EOM
+   Marcus Kettner         : VPT2
+   Christian Kollmar      : KDIIS, OOCD, Brueckner-CCSD(T), CCSD density, CASPT2, CASPT2-K
+   Simone Kossmann        : Meta GGA functionals, TD-DFT gradient, OOMP2, MP2 Hessian
+   Martin Krupicka        : Initial AUTO-CI
+   Lucas Lang             : DCDCAS
+   Marvin Lechner         : AUTO-CI (C++ implementation), FIC-MRCC
+   Dagmar Lenk            : GEPOL surface, SMD
+   Dimitrios Liakos       : Extrapolation schemes; Compound Job, initial MDCI parallelization
+   Dimitrios Manganas     : Further ROCIS development; embedding schemes
+   Dimitrios Pantazis     : SARC Basis sets
+   Anastasios Papadopoulos: AUTO-CI, single reference methods and gradients
+   Taras Petrenko         : DFT Hessian,TD-DFT gradient, ASA, ECA, R-Raman, ABS, FL, XAS/XES, NRVS
+   Peter Pinski           : DLPNO-MP2, DLPNO-MP2 Gradient
+   Christoph Reimann      : Effective Core Potentials
+   Marius Retegan         : Local ZFS, SOC
+   Christoph Riplinger    : Optimizer, TS searches, QM/MM, DLPNO-CCSD(T), (RO)-DLPNO pert. Triples
+   Tobias Risthaus        : Range-separated hybrids, TD-DFT gradient, RPA, STAB
+   Michael Roemelt        : Original ROCIS implementation
+   Masaaki Saitow         : Open-shell DLPNO-CCSD energy and density
+   Barbara Sandhoefer     : DKH picture change effects
+   Avijit Sen             : IP-ROCIS
+   Kantharuban Sivalingam : CASSCF convergence, NEVPT2, FIC-MRCI
+   Bernardo de Souza      : ESD, SOC TD-DFT
+   Georgi Stoychev        : AutoAux, RI-MP2 NMR, DLPNO-MP2 response
+   Willem Van den Heuvel  : Paramagnetic NMR
+   Boris Wezisla          : Elementary symmetry handling
+   Frank Wennmohs         : Technical directorship
+
+
+ We gratefully acknowledge several colleagues who have allowed us to
+ interface, adapt or use parts of their codes:
+   Stefan Grimme, W. Hujo, H. Kruse, P. Pracht,  : VdW corrections, initial TS optimization,
+                  C. Bannwarth, S. Ehlert          DFT functionals, gCP, sTDA/sTD-DF
+   Ed Valeev, F. Pavosevic, A. Kumar             : LibInt (2-el integral package), F12 methods
+   Garnet Chan, S. Sharma, J. Yang, R. Olivares  : DMRG
+   Ulf Ekstrom                                   : XCFun DFT Library
+   Mihaly Kallay                                 : mrcc  (arbitrary order and MRCC methods)
+   Jiri Pittner, Ondrej Demel                    : Mk-CCSD
+   Frank Weinhold                                : gennbo (NPA and NBO analysis)
+   Christopher J. Cramer and Donald G. Truhlar   : smd solvation model
+   Lars Goerigk                                  : TD-DFT with DH, B97 family of functionals
+   V. Asgeirsson, H. Jonsson                     : NEB implementation
+   FAccTs GmbH                                   : IRC, NEB, NEB-TS, DLPNO-Multilevel, CI-OPT
+                                                   MM, QMMM, 2- and 3-layer-ONIOM, Crystal-QMMM,
+                                                   LR-CPCM, SF, NACMEs, symmetry and pop. for TD-DFT,
+                                                   nearIR, NL-DFT gradient (VV10), updates on ESD,
+                                                   ML-optimized integration grids
+   S Lehtola, MJT Oliveira, MAL Marques          : LibXC Library
+   Liviu Ungur et al                             : ANISO software
+
+
+ Your calculation uses the libint2 library for the computation of 2-el integrals
+ For citations please refer to: http://libint.valeyev.net
+
+ Your ORCA version has been built with support for libXC version: 5.1.0
+ For citations please refer to: https://tddft.org/programs/libxc/
+
+ This ORCA versions uses:
+   CBLAS   interface :  Fast vector & matrix operations
+   LAPACKE interface :  Fast linear algebra routines
+   SCALAPACK package :  Parallel linear algebra routines
+   Shared memory     :  Shared parallel matrices
+   BLAS/LAPACK       :  OpenBLAS 0.3.15  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Prescott SINGLE_THREADED
+        Core in use  :  Prescott
+   Copyright (c) 2011-2014, The OpenBLAS Project
+
+
+================================================================================
+
+----- Orbital basis set information -----
+Your calculation utilizes the basis: TZVP 
+
+The basis set includes element-specific modifications.
+
+Your calculation utilizes the basis: CP(PPP) 
+
+----- AuxJ basis set information -----
+Your calculation utilizes the auxiliary basis: def2/J
+   F. Weigend, Phys. Chem. Chem. Phys. 8, 1057 (2006).
+
+================================================================================
+                                        WARNINGS
+                       Please study these warnings very carefully!
+================================================================================
+
+
+WARNING: your system is open-shell and RHF/RKS was chosen
+  ===> : WILL SWITCH to UHF/UKS
+
+
+INFO   : the flag for use of the SHARK integral package has been found!
+
+================================================================================
+                                       INPUT FILE
+================================================================================
+NAME = input_34.inp
+|  1> ! nofrozencore ReducedPop printbasis
+|  2> ! B3LYP TZVP
+|  3> 
+|  4> %basis
+|  5> newgto V "CP(PPP)" end
+|  6> end
+|  7> 
+|  8> %pal
+|  9> nprocs 16
+| 10> end
+| 11> 
+| 12> % sym SymThresh 1e-2 end
+| 13> * xyz -2 2 
+| 14> V -0.39199120425889417 -1.665167776757523 1.402853865964331
+| 15> S 0.8167401889303466 -2.616628037836222 -0.5310425463193903
+| 16> S 1.7161231058419397 -0.6568207837511099 2.1512706175386196
+| 17> S -2.315379354721091 -1.4602989483246929 -0.1557820915867485
+| 18> S -1.4883814021192094 0.37280361398223505 2.344268604266252
+| 19> O -1.0297580624523903 -2.7509823883245206 2.4172751603364517
+| 20> C 1.1483172300396425 0.8367203694782593 2.870038598806338
+| 21> C -0.11351253184170697 1.2928184955887034 2.9559637331617665
+| 22> C -0.549245493263487 -2.9932555707228423 -1.5577616612394283
+| 23> C -1.8181028329839575 -2.557945752579219 -1.452309416406725
+| 24> S 2.4772182370705322 1.8788781969987107 3.4235110043372203
+| 25> S -0.2694884745252612 2.9621253172594195 3.6859581868397293
+| 26> S -2.916314543244584 -3.137663985570296 -2.801909531577931
+| 27> S -0.10391949646315159 -4.047208891182104 -2.910578641038131
+| 28> C 1.4719146022770386 3.194917081738688 4.018565223667146
+| 29> C -1.6245250736366006 -3.9093549277476822 -3.775558431853746
+| 30> C 1.9342482720554788 4.311214941015211 4.623728936092015
+| 31> C -1.8395971930216224 -4.3744093130557244 -5.026780801571054
+| 32> S 3.641909289300247 4.761142959516676 4.988359554652647
+| 33> S 0.8024816310401095 5.614996822845678 5.095425035385187
+| 34> S -0.6733740215896006 -5.1468402197404854 -6.169145938501533
+| 35> S -3.449445120292962 -4.212173158761589 -5.774377030169098
+| 36> C -2.774995765881473 -4.068981200007926 -7.446124988494819
+| 37> C -1.5255685310064624 -4.555434314946419 -7.60758448543514
+| 38> C 1.900291356233397 6.264561437989576 6.370304470787217
+| 39> C 3.196929916339853 5.905913498293421 6.259452855734664
+| 40> S -0.4962466742886906 -4.636663936713975 -9.04756260623614
+| 41> S -3.747964572849092 -3.4333542656743528 -8.790082960956276
+| 42> S 1.3201286166093325 7.410333164148395 7.60089004754039
+| 43> S 4.5990409738628335 6.37337092230467 7.2377969630100925
+| 44> C -3.724847352824017 -4.899278805270624 -9.947204617198942
+| 45> C -1.3189267638341262 -5.81846416306328 -10.184231917008733
+| 46> C -2.5221531827583656 -5.186691912748497 -10.861222398013409
+| 47> H -1.5720478238561069 -6.736425543239811 -9.647550667040235
+| 48> H -0.5421424782619115 -6.055798801519424 -10.918645005829292
+| 49> H -2.888432211590704 -5.8741442634165075 -11.639791717567983
+| 50> H -2.2072402253232797 -4.268869781657146 -11.367316158157136
+| 51> H -4.599580660339738 -4.720882093795495 -10.580164072721542
+| 52> H -3.942033983200516 -5.771878504214692 -9.326886138840104
+| 53> C 4.83088179088372 8.166341588602034 6.917272489257662
+| 54> C 2.3604168663785043 8.899242027870997 7.173918924560786
+| 55> C 3.812790257176471 9.013028245649679 7.662871192945583
+| 56> H 1.788832732687439 9.731302249613467 7.596522061978749
+| 57> H 2.317734606390682 8.991356776059424 6.0861902004105435
+| 58> H 4.819714805149022 8.350834955316648 5.839759664722424
+| 59> H 5.842001056956807 8.367167602407708 7.2869775369710315
+| 60> H 4.092122035413461 10.071876038162388 7.549942297688768
+| 61> H 3.866929383817348 8.780793563090866 8.730725552312707
+| 62> * 
+| 63> 
+| 64> % eprnmr
+| 65> gtensor true
+| 66> Nuclei = all H {aiso,adip,aorb,fgrad,rho}
+| 67> Nuclei = all V {aiso,adip,aorb,fgrad,rho}
+| 68> end
+| 69> 
+| 70>                          ****END OF INPUT****
+================================================================================
+
+------------------------------------------------------------------------------
+                            SYMMETRY HANDLING SETUP
+------------------------------------------------------------------------------
+
+------------------
+SYMMETRY DETECTION
+------------------
+The point group will now be determined using a tolerance of 1.0000e-02.
+Splitting atom subsets according to nuclear charge, mass and basis set.
+Splitting atom subsets according to distance from the molecule's center.
+Identifying relative distance patterns of the atoms.
+Splitting atom subsets according to atoms' relative distance patterns.
+Bring atoms of each subset into input order.
+The molecule is neither linear nor planar.
+There is at least one atom subset not centered around the molecule's center.
+The molecule does not have a center of inversion.
+Analyzing the first atom subset for its symmetry.
+The subset is an off-center atom pair.
+Testing point group C2v.
+Test failed.
+Testing point group C2.
+Test failed.
+Testing point group Cs.
+Test failed.
+Testing point group Cs.
+Success!
+This point group has been found:    Cs
+Largest non-degenerate subgroup:    Cs
+
+
+Mass-centered symmetry-perfected Cartesians (point group Cs):
+
+Atom          Symmetry-perfected Cartesians (x, y, z; au)
+  0                 -nan              -nan              -nan
+  1                 -nan              -nan              -nan
+  2                 -nan              -nan              -nan
+  3                 -nan              -nan              -nan
+  4                 -nan              -nan              -nan
+  5                 -nan              -nan              -nan
+  6                 -nan              -nan              -nan
+  7                 -nan              -nan              -nan
+  8                 -nan              -nan              -nan
+  9                 -nan              -nan              -nan
+ 10                 -nan              -nan              -nan
+ 11                 -nan              -nan              -nan
+ 12                 -nan              -nan              -nan
+ 13                 -nan              -nan              -nan
+ 14                 -nan              -nan              -nan
+ 15                 -nan              -nan              -nan
+ 16                 -nan              -nan              -nan
+ 17                 -nan              -nan              -nan
+ 18                 -nan              -nan              -nan
+ 19                 -nan              -nan              -nan
+ 20                 -nan              -nan              -nan
+ 21                 -nan              -nan              -nan
+ 22                 -nan              -nan              -nan
+ 23                 -nan              -nan              -nan
+ 24                 -nan              -nan              -nan
+ 25                 -nan              -nan              -nan
+ 26                 -nan              -nan              -nan
+ 27                 -nan              -nan              -nan
+ 28                 -nan              -nan              -nan
+ 29                 -nan              -nan              -nan
+ 30                 -nan              -nan              -nan
+ 31                 -nan              -nan              -nan
+ 32                 -nan              -nan              -nan
+ 33                 -nan              -nan              -nan
+ 34                 -nan              -nan              -nan
+ 35                 -nan              -nan              -nan
+ 36                 -nan              -nan              -nan
+ 37                 -nan              -nan              -nan
+ 38                 -nan              -nan              -nan
+ 39                 -nan              -nan              -nan
+ 40                 -nan              -nan              -nan
+ 41                 -nan              -nan              -nan
+ 42                 -nan              -nan              -nan
+ 43                 -nan              -nan              -nan
+ 44                 -nan              -nan              -nan
+ 45                 -nan              -nan              -nan
+ 46                 -nan              -nan              -nan
+ 47                 -nan              -nan              -nan
+
+
+-----------------------------------------------
+SYMMETRY-PERFECTED CARTESIAN COORDINATES (A.U.)
+-----------------------------------------------
+Warning (ORCA_SYM): Coordinates were not cleaned so far!
+
+------------------
+SYMMETRY REDUCTION
+------------------
+ORCA supports only abelian point groups.
+It is now checked, if the determined point group is supported:
+Point Group ( Cs    ) is          ... supported
+
+(Re)building abelian point group:
+Creating Character Table          ... done
+Making direct product table       ... done
+Constructing symmetry operations  ... done
+Creating atom transfer table      ... done
+Creating asymmetric unit          ... done
+
+---------------------
+ASYMMETRIC UNIT IN Cs
+---------------------
+  #  AT     MASS              COORDS (A.U.)             BAS
+   1 S   32.0600         -nan         -nan         -nan   0
+   2 S   32.0600         -nan         -nan         -nan   0
+   3 S   32.0600         -nan         -nan         -nan   0
+   4 S   32.0600         -nan         -nan         -nan   0
+   5 O   15.9990         -nan         -nan         -nan   0
+   6 C   12.0110         -nan         -nan         -nan   0
+   7 C   12.0110         -nan         -nan         -nan   0
+   8 C   12.0110         -nan         -nan         -nan   0
+   9 C   12.0110         -nan         -nan         -nan   0
+  10 S   32.0600         -nan         -nan         -nan   0
+  11 S   32.0600         -nan         -nan         -nan   0
+  12 S   32.0600         -nan         -nan         -nan   0
+  13 S   32.0600         -nan         -nan         -nan   0
+  14 C   12.0110         -nan         -nan         -nan   0
+  15 C   12.0110         -nan         -nan         -nan   0
+  16 C   12.0110         -nan         -nan         -nan   0
+  17 C   12.0110         -nan         -nan         -nan   0
+  18 S   32.0600         -nan         -nan         -nan   0
+  19 S   32.0600         -nan         -nan         -nan   0
+  20 S   32.0600         -nan         -nan         -nan   0
+  21 S   32.0600         -nan         -nan         -nan   0
+  22 C   12.0110         -nan         -nan         -nan   0
+  23 C   12.0110         -nan         -nan         -nan   0
+  24 C   12.0110         -nan         -nan         -nan   0
+  25 C   12.0110         -nan         -nan         -nan   0
+  26 S   32.0600         -nan         -nan         -nan   0
+  27 S   32.0600         -nan         -nan         -nan   0
+  28 S   32.0600         -nan         -nan         -nan   0
+  29 S   32.0600         -nan         -nan         -nan   0
+  30 C   12.0110         -nan         -nan         -nan   0
+  31 C   12.0110         -nan         -nan         -nan   0
+  32 C   12.0110         -nan         -nan         -nan   0
+  33 H    1.0080         -nan         -nan         -nan   0
+  34 H    1.0080         -nan         -nan         -nan   0
+  35 H    1.0080         -nan         -nan         -nan   0
+  36 H    1.0080         -nan         -nan         -nan   0
+  37 H    1.0080         -nan         -nan         -nan   0
+  38 H    1.0080         -nan         -nan         -nan   0
+  39 C   12.0110         -nan         -nan         -nan   0
+  40 C   12.0110         -nan         -nan         -nan   0
+  41 C   12.0110         -nan         -nan         -nan   0
+  42 H    1.0080         -nan         -nan         -nan   0
+  43 H    1.0080         -nan         -nan         -nan   0
+  44 H    1.0080         -nan         -nan         -nan   0
+  45 H    1.0080         -nan         -nan         -nan   0
+  46 H    1.0080         -nan         -nan         -nan   0
+  47 H    1.0080         -nan         -nan         -nan   0
+
+----------------------
+SYMMETRY ADAPTED BASIS
+----------------------
+The coefficients for the symmetry adapted linear combinations (SALCS)
+of basis functions will now be computed:
+Number of basis functions         ...   845
+Preparing memory                  ... done
+Constructing Gamma(red)           ... done
+Reducing Gamma(red)               ... done
+Constructing SALCs                ... [file orca_tools/Tool-Symmetry/symmain.cpp, line 1260]: Error (ORCA_SYM): TMoleculeSymmetry::ConstructSALCs failed to find appropriate Basis function in construction!
+
